@@ -1,0 +1,21 @@
+Randomizer
+
+This program takes an input file, randomizes the line order, and outputs the
+ reordered file into a new file.
+
+Compiling:
+
+make clean && make
+
+Compiling Debug version:
+
+The debug version simply outputs some additional information to the console.
+
+make clean && make debug
+
+Running the program:
+
+./randomizer -f <file name> -o <output file name> [-i <iterations>]
+
+The iterations represents the number of times to randomize the file.
+
