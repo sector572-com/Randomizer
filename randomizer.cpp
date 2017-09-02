@@ -41,8 +41,6 @@ int main(int argc, char* argv[])
 	int arg = 0;
 	int error = 0;
 	vector<int> lines;
-	vector<int>* indexes = NULL;
-	map<int, int>* usedIndexes = NULL;
 	const char* fileName = NULL;
 	const char* outputFileName = NULL;
 	srand(time(NULL));
@@ -126,84 +124,51 @@ int main(int argc, char* argv[])
 
 			for(int i = 0; i < iterations; i++)
 			{
-				if(indexes != NULL)
-				{
-					delete indexes;
-					indexes = NULL;
-				}
-
 				#ifdef _DEBUG_
 				cout << "Iteration: " << (i + 1) << endl;
 				#endif
 
-				usedIndexes = new map<int, int>();
-				indexes = new vector<int>();
-
-				for(int k = 0; k < lines.size(); k++)
+				for(int r = lines.size() - 1; r > 0; r--)
 				{
-					int index = -1;
-					do
-					{
-						index = rand() % lines.size();
-					}
-					while(usedIndexes->find(index)
-						 != usedIndexes->end());
+					int j = rand() % r;
 
-					if(index > -1 && index < lines.size())
+					if(j > -1)
 					{
-						usedIndexes->operator[](index) = 0;
-						indexes->push_back(index);
+						int val1 = lines[r];
+						int val2 = lines[j];
+
+						lines[r] = val2;
+						lines[j] = val1;
 					}
 				}
-
-				for(int r = 0; r < lines.size(); r++)
-				{
-					int val1 = lines[r];
-					int val2 = lines[indexes->operator[](r)];
-
-					lines[r] = val2;
-					lines[indexes->operator[](r)] = val1;
-				}
-
-				delete usedIndexes;
-				usedIndexes = NULL;
 			}
 
 			inFile.clear();
 
+			ofstream outFile(outputFileName, ofstream::out);
 
-			if(indexes != NULL)
+			if(outFile)
 			{
-				ofstream outFile(outputFileName, ofstream::out);
-
-				if(outFile)
+				for(int i = 0; i < lines.size(); i++)
 				{
-					for(vector<int>::iterator i = indexes->begin();
-						i != indexes->end();
-						++i)
-					{
-						int p = lines[*i];
+					int p = lines[i];
 
-						string line;
-						inFile.seekg(p);
-						getline(inFile, line);
-						outFile << line << endl;
-					}
-
-					outFile.close();
+					string line;
+					inFile.seekg(p);
+					getline(inFile, line);
+					outFile << line << endl;
 				}
 
-				delete indexes;
-				indexes = NULL;
+				outFile.close();
 			}
-
-			inFile.close();
-			inFile.clear();
-
-			#ifdef _DEBUG_
-			cout << "Processing finished." << endl;
-			#endif
 		}
+
+		inFile.close();
+		inFile.clear();
+
+		#ifdef _DEBUG_
+		cout << "Processing finished." << endl;
+		#endif
 	}
 	else
 	{
