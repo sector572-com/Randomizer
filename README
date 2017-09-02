@@ -1,7 +1,12 @@
 Randomizer
+----------
 
-This program takes an input file, randomizes the line order, and outputs the
- reordered file into a new file.
+This program takes an input file, shuffles the line order randomly, and outputs
+the reordered file into a new file.
+
+This shuffle program does not store the file contents in memory. Instead, it
+only stores file point of the starting point of each line. Thus making it useful
+to shuffle large text files on memory constrained systems.
 
 Compiling:
 
