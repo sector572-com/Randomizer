@@ -16,7 +16,7 @@ limitations under the License.
 Author:		Eddie N. <en@sector572.com>
 Date:		2017-08-25
 Filename:	randomizer.cpp
-Version:	1.0.0
+Version:	1.1.0
 Description:	This program takes a text file as input and reorders the lines
 		in a random order outputting the results to a new file.
 */
@@ -29,6 +29,9 @@ Description:	This program takes a text file as input and reorders the lines
 #include <ctime>
 #include <map>
 #include <unistd.h>
+
+#define _APP_NAME_ "randomizer"
+#define _VERSION_ "v1.1.0"
 
 using namespace std;
 
@@ -181,6 +184,7 @@ int main(int argc, char* argv[])
 
 void usage(char* command)
 {
+	cout << _APP_NAME_ << " " << _VERSION_ << endl << endl;
 	cout << "Usage: " << endl;
 	cout << command << " -f <file name> -o <output file name> "
 	     << "[-i <iterations>]" << endl;
