@@ -30,8 +30,10 @@ Description:	This program takes a text file as input and reorders the lines
 #include <map>
 #include <unistd.h>
 
-#define _APP_NAME_ "randomizer"
-#define _VERSION_ "v1.1.0"
+#define _APP_NAME_	"randomizer"
+#define _VERSION_	"v1.1.0"
+
+#define ITERATIONS	1
 
 using namespace std;
 
@@ -40,7 +42,7 @@ void usage(char* command);
 int main(int argc, char* argv[])
 {
 	int rtn = 0;
-	int iterations = 1;
+	int iterations = ITERATIONS;
 	int arg = 0;
 	int error = 0;
 	vector<int> lines;
@@ -90,9 +92,9 @@ int main(int argc, char* argv[])
 	if(error == 0)
 	{
 		#ifdef _DEBUG_
-		cout << "Input file name:  " << fileName << endl;
+		cout << "Input file name: " << fileName << endl;
 		cout << "Output file name: " << outputFileName << endl;
-		cout << "Iterations:       " << iterations << endl << endl;
+		cout << "Iterations: " << iterations << endl << endl;
 		#endif
 
 		ifstream inFile(fileName);
@@ -115,6 +117,10 @@ int main(int argc, char* argv[])
 			int length = inFile.tellg();
 			inFile.seekg(0);
 
+			#ifdef _DEBUG_
+			cout << "Size: " << length << endl;
+			#endif
+
 			while(!inFile.eof())
 			{
 				pos = inFile.tellg();
@@ -124,6 +130,10 @@ int main(int argc, char* argv[])
 				}
 				getline(inFile, line);
 			}
+
+			#ifdef _DEBUG_
+			cout << "Lines: " << lines.size() << endl;
+			#endif
 
 			for(int i = 0; i < iterations; i++)
 			{
@@ -187,5 +197,10 @@ void usage(char* command)
 	cout << _APP_NAME_ << " " << _VERSION_ << endl << endl;
 	cout << "Usage: " << endl;
 	cout << command << " -f <file name> -o <output file name> "
-	     << "[-i <iterations>]" << endl;
+	     << "[-i <iterations>]" << endl << endl;
+	cout << "Options:" << endl;
+	cout << "\t-f\tThe input file path." << endl;
+	cout << "\t-o\tThe output file path." << endl;
+	cout << "\t-i\tThe number of times to shuffle the lines.";
+	cout << " [default=" << ITERATIONS << "]" << endl << endl;
 }
